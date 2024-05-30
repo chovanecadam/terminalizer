@@ -152,44 +152,10 @@ function done(argv) {
   console.log('The recording data is saved into the file:');
   console.log(di.chalk.magenta(recordingFile));
   console.log('You can edit the file and even change the configurations.');
-  console.log(
-    "The command " +
-      di.chalk.magenta("`terminalizer share`") +
-      "can be used anytime to share recordings!"
-  );
 
   // Reset STDIN
   process.stdin.setRawMode(false);
   process.stdin.pause();
-
-  if (argv.skipSharing) {
-    return
-  }
-
-  di.inquirer.prompt([
-    {
-      type: "confirm",
-      name: "share",
-      message: "Would you like to share your recording on www.terminalizer.com?",
-    },
-  ]).then(function(answers) {
-
-    if (!answers.share) {
-      return;
-    }
-
-    console.log(
-      di.chalk.green(
-        "Let's now share your recording on https://www.terminalizer.com"
-      )
-    );
-
-    // Invoke the share command
-    di.commands.share.handler({
-      recordingFile: recordingFile,
-    });
-  });
-
 }
 
 /**
@@ -307,15 +273,6 @@ module.exports.builder = function(yargs) {
     describe: 'The command to be executed',
     requiresArg: true,
     default: null
-  });
-
-  // Define the config option
-  yargs.option('k', {
-    alias: 'skip-sharing',
-    type: 'boolean',
-    describe: 'Skip sharing and showing the sharing prompt message',
-    requiresArg: false,
-    default: false
   });
 
   // Add examples
